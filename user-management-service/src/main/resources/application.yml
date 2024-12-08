@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: user-management-service
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v2/
+
+app:
+  keycloak:
+    admin:
+      client-id: admin-cli
+      client-secret: CU85xzYKr69gpvK5YEuQCOQ5BYXioI9a
+    realm: savespendr
+    server-url: http://localhost:9081
+    groups:
+      merchant-group-id: 48b367e2-930c-4004-9c29-8c6a7f626a9a
+      user-group-id: 061087cb-41aa-47e1-92fe-71a1cadc5f1f

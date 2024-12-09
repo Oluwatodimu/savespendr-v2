@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         Response response = getUsersResource().create(userRepresentation);
 
         if (response.getStatus() != 201) {
-            log.error("user creation failed: {}", response.getStatus());
+//            log.error("user creation failed: {}", response.getStatus());
             throw new KeycloakException(String.format("user creation failed with code: %s", response.getStatus()));
         }
 

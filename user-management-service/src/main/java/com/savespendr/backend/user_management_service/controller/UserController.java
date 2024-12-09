@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Slf4j
+//@Slf4j
 @Validated
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "/api/v2/users")
 public class UserController {
 
     private final UserService userService;
@@ -30,14 +30,14 @@ public class UserController {
 
     @PostMapping(path = "/user-signup")
     public ResponseEntity<BaseResponse> createUser(@RequestBody @Valid UserSignupRequest request) {
-        log.info("creating new user with username: {}", request.getUsername());
+//        log.info("creating new user with username: {}", request.getUsername());
         userService.registerNormalUser(request);
         return new ResponseEntity<>(new BaseResponse("user created successfully", false, null), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/forgot-password/{username}")
     public ResponseEntity<BaseResponse> resetPassword(@PathVariable(name = "username") String username) {
-        log.info("resetting password flow initiated for user with username: {}", username);
+//        log.info("resetting password flow initiated for user with username: {}", username);
         userService.resetPassword(username);
         return new ResponseEntity<>(new BaseResponse("password reset link sent to email", false, null), HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class UserController {
     @PutMapping(path = "/update-password")
     @PreAuthorize("hasRole('update_password')")
     public ResponseEntity<BaseResponse> updatePassword(Principal principal, @RequestBody @Valid UpdatePasswordRequest request) {
-        log.info("updating password flow initiated for user with username: {}", principal.getName());
+//        log.info("updating password flow initiated for user with username: {}", principal.getName());
         userService.updatePassword(principal.getName(), request);
         return ResponseEntity.ok(new BaseResponse("password update link sent to email", false, null));
     }

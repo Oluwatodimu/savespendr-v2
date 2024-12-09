@@ -1,5 +1,6 @@
 package com.savespendr.backend.user_management_service.service.impl;
 
+import com.savespendr.backend.user_management_service.controller.UserController;
 import com.savespendr.backend.user_management_service.data.dto.request.UpdatePasswordRequest;
 import com.savespendr.backend.user_management_service.data.dto.request.UserSignupRequest;
 import com.savespendr.backend.user_management_service.exception.KeycloakException;
@@ -13,6 +14,8 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Value("${app.keycloak.realm}")
     private String realm;
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
         Response response = getUsersResource().create(userRepresentation);
 
         if (response.getStatus() != 201) {
-//            log.error("user creation failed: {}", response.getStatus());
+            log.error("user creation failed: {}", response.getStatus());
             throw new KeycloakException(String.format("user creation failed with code: %s", response.getStatus()));
         }
 

@@ -31,12 +31,3 @@ management:
       enabled: true  # Enable readiness state health check
     liveness-state:
       enabled: true  # Enable liveness state health check
-  endpoint:
-    sessions:
-      enabled: true
-    health:
-      probes:
-        enabled: true
-  info:
-    env:
-      enabled: true

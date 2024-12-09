@@ -35,6 +35,13 @@ public class UserController {
         return new ResponseEntity<>(new BaseResponse("user created successfully", false, null), HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "/merchant-signup")
+    @PreAuthorize("hasRole('create_merchant')")
+    public ResponseEntity<BaseResponse> createMerchantUser(@RequestBody @Valid UserSignupRequest userSignupRequest) {
+        String userId = userService.registerMerchantUser(userSignupRequest);
+        return new ResponseEntity<>(new BaseResponse("merchant created successfully", false, userId), HttpStatus.CREATED);
+    }
+
     @PutMapping(path = "/forgot-password/{username}")
     public ResponseEntity<BaseResponse> resetPassword(@PathVariable(name = "username") String username) {
 //        log.info("resetting password flow initiated for user with username: {}", username);

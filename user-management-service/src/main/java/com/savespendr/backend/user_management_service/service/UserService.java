@@ -7,6 +7,8 @@ public interface UserService {
 
     void registerNormalUser(UserSignupRequest signupRequest);
 
+    String registerMerchantUser(UserSignupRequest signupRequest);
+
     void resetPassword(String username);
 
     void updatePassword(String userId, UpdatePasswordRequest request);

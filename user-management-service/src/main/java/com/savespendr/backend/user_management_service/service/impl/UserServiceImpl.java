@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Value("${app.keycloak.groups.user-group-id}")
     private String userGroupId;
 
+    @Value("${app.keycloak.groups.merchant-group-id}")
+    private String merchantGroupId;
+
     private final Keycloak keycloak;
 
     @Autowired
@@ -65,6 +68,36 @@ public class UserServiceImpl implements UserService {
         String userId = location.substring(location.lastIndexOf('/') + 1);
         getUsersResource().get(userId).joinGroup(userGroupId);
         getUsersResource().get(userId).sendVerifyEmail();
+    }
+
+    @Override
+    public String registerMerchantUser(UserSignupRequest signupRequest) {
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setEnabled(true);
+        userRepresentation.setFirstName(signupRequest.getFirstName().toLowerCase(Locale.ROOT).strip());
+        userRepresentation.setLastName(signupRequest.getLastName().toLowerCase(Locale.ROOT).strip());
+        userRepresentation.setUsername(signupRequest.getUsername().toLowerCase(Locale.ROOT).strip());
+        userRepresentation.setEmail(signupRequest.getEmail().toLowerCase(Locale.ROOT).strip());
+        userRepresentation.setEmailVerified(true);
+
+        CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+        credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+        credentialRepresentation.setValue(signupRequest.getPassword().strip());
+        credentialRepresentation.setTemporary(true);
+        userRepresentation.setCredentials(List.of(credentialRepresentation));
+        userRepresentation.setRequiredActions(List.of("UPDATE_PASSWORD"));
+
+        Response response = getUsersResource().create(userRepresentation);
+
+        if (response.getStatus() != 201) {
+            throw new KeycloakException(String.format("user creation failed with code: %s", response.getStatus()));
+        }
+
+        String location = response.getHeaderString("Location");
+        String userId = location.substring(location.lastIndexOf('/') + 1);
+        getUsersResource().get(userId).joinGroup(merchantGroupId);
+        getUsersResource().get(userId).executeActionsEmail(List.of("UPDATE_PASSWORD"));
+        return userId;
     }
 
     @Override

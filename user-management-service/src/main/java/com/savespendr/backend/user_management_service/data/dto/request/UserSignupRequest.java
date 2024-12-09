@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-@Data
 public class UserSignupRequest {
 
     @NotNull(message = "first name cannot be null")

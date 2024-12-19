@@ -1,4 +1,4 @@
-package com.savespendr.backend.user_management_service.config;
+package com.savespendr.backend.merchantservice.config;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -24,8 +24,8 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
-                authoritiesConverter.convert(jwt).stream(),
-                extractResourceRoles(jwt).stream())
+                        authoritiesConverter.convert(jwt).stream(),
+                        extractResourceRoles(jwt).stream())
                 .collect(Collectors.toSet());
         return new JwtAuthenticationToken(jwt, authorities, getPrincipalClaimName(jwt));
 

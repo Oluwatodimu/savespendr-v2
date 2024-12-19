@@ -8,7 +8,6 @@ import com.savespendr.backend.user_management_service.service.UserService;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
-import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -94,6 +93,7 @@ public class UserServiceImpl implements UserService {
         Response response = getUsersResource().create(userRepresentation);
 
         if (response.getStatus() != 201) {
+            log.error("merchant creation failed: {}", response.getStatus());
             throw new KeycloakException(String.format("user creation failed with code: %s", response.getStatus()));
         }
 

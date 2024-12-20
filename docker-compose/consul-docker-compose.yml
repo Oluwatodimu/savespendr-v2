@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  consul:
+    image: bitnami/consul:latest
+    container_name: consul
+    restart: unless-stopped
+    ports:
+      - "8500:8500"   # Expose the Consul UI and API
+      - "8600:8600/udp" # DNS interface
+    environment:
+      - CONSUL_CLIENT_LAN_ADDRESS=0.0.0.0
+    volumes:
+      - consul-data:/bitnami
+    networks:
+      - consul-network
+
+volumes:
+  consul-data:
+
+networks:
+  consul-network:
+    driver: bridge

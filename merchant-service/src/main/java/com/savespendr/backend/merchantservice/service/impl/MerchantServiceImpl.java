@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -57,7 +58,7 @@ public class MerchantServiceImpl implements MerchantService {
     private Merchant createMerchantInstance(MerchantSignupRequest request, String userId) {
         Merchant merchant = new Merchant();
         merchant.setUserId(UUID.fromString(userId));
-        merchant.setName(request.getMerchantName());
+        merchant.setName(request.getMerchantName().toLowerCase(Locale.ROOT).trim());
         merchant.setAdvertisedDiscount(request.getAdvertisedDiscountRate() != null ? request.getAdvertisedDiscountRate() : BigDecimal.ZERO);
         merchant.setCategory(request.getCategory());
         merchant.setImage(request.getImage());
@@ -66,7 +67,8 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public Merchant findMerchantById(UUID merchantId) {
-        return null;
+        return merchantRepository.findById(merchantId)
+                .orElseThrow(() -> new NotFoundException(String.format("merchant with id %s not found", merchantId)));
     }
 
     @Override

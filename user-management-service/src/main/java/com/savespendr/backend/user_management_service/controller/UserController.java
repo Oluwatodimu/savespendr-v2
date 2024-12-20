@@ -18,7 +18,7 @@ import java.security.Principal;
 
 @Validated
 @RestController
-@RequestMapping(path = "/api/v2/users")
+@RequestMapping(path = "/users")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

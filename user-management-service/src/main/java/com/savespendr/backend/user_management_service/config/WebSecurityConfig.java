@@ -27,10 +27,10 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/v2/users/user-signup").permitAll()
-                        .requestMatchers("/api/v2/users/forgot-password/**").permitAll()
-                        .requestMatchers("/api/v2/users/update-password").authenticated()
-                        .requestMatchers("/api/v2/users/merchant-signup").authenticated()
+                        .requestMatchers("/users/user-signup").permitAll()
+                        .requestMatchers("/users/forgot-password/**").permitAll()
+                        .requestMatchers("/users/update-password").authenticated()
+                        .requestMatchers("/users/merchant-signup").authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(
                         jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)

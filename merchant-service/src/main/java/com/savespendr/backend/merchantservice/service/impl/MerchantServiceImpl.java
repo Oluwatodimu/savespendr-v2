@@ -1,5 +1,6 @@
 package com.savespendr.backend.merchantservice.service.impl;
 
+import com.savespendr.backend.merchantservice.data.dto.BaseResponse;
 import com.savespendr.backend.merchantservice.data.dto.request.MerchantSignupRequest;
 import com.savespendr.backend.merchantservice.data.dto.request.UserSignupRequest;
 import com.savespendr.backend.merchantservice.data.entity.Merchant;
@@ -7,12 +8,14 @@ import com.savespendr.backend.merchantservice.data.enums.MerchantCategory;
 import com.savespendr.backend.merchantservice.exception.NotFoundException;
 import com.savespendr.backend.merchantservice.repository.MerchantRepository;
 import com.savespendr.backend.merchantservice.service.MerchantService;
+import com.savespendr.backend.merchantservice.service.api.UserServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -23,21 +26,25 @@ public class MerchantServiceImpl implements MerchantService {
 
     private static final Logger log = LoggerFactory.getLogger(MerchantServiceImpl.class);
 
+    private final UserServiceApi userServiceApi;
     private final MerchantRepository merchantRepository;
 
     @Autowired
-    public MerchantServiceImpl(MerchantRepository merchantRepository) {
+    public MerchantServiceImpl(UserServiceApi userServiceApi, MerchantRepository merchantRepository) {
+        this.userServiceApi = userServiceApi;
         this.merchantRepository = merchantRepository;
     }
 
     @Override
+    @Transactional
     public void registerMerchant(MerchantSignupRequest request) {
         try {
 
             UserSignupRequest signupRequest = createSignupRequest(request);
-            String merchantUserId = "6589a031-d78a-407b-92fe-9b38b444daab"; // get from auth service
-            Merchant merchant = createMerchantInstance(request, merchantUserId);
-            merchantRepository.save(merchant);
+            BaseResponse<String> userServiceResponse = userServiceApi.createMerchantUser(signupRequest);
+//            Merchant merchant = createMerchantInstance(request, merchantUserId);
+//            merchantRepository.save(merchant);
+            System.out.println("here");
 
         } catch (Exception exception) {
             log.error("an error occurred: {}", exception.getMessage());
@@ -49,7 +56,7 @@ public class MerchantServiceImpl implements MerchantService {
         UserSignupRequest signupRequest = new UserSignupRequest();
         signupRequest.setFirstName(request.getFirstName());
         signupRequest.setLastName(request.getLastName());
-        signupRequest.setPassword("dummy-password");
+        signupRequest.setPassword("Myp@ssw0rd!");
         signupRequest.setUsername(request.getUsername());
         signupRequest.setEmail(request.getEmail());
         return signupRequest;

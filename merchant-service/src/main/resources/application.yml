@@ -19,7 +19,7 @@ spring:
 
 app:
   keycloak:
-    admin:
+    service:
       client-id: merchant-service
       client-secret: v4zSj5eNDTsESHjbu3vOUrS6KWdgvPtC
     realm: savespendr

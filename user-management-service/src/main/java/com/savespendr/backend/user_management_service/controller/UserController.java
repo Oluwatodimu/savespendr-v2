@@ -31,32 +31,32 @@ public class UserController {
     }
 
     @PostMapping(path = "/user-signup")
-    public ResponseEntity<BaseResponse> createUser(@RequestBody @Valid UserSignupRequest request) {
+    public ResponseEntity<BaseResponse<Void>> createUser(@RequestBody @Valid UserSignupRequest request) {
         log.info("creating new user with username: {}", request.getUsername());
         userService.registerNormalUser(request);
-        return new ResponseEntity<>(new BaseResponse("user created successfully", false, null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new BaseResponse<>("user created successfully", false, null), HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/merchant-signup")
-    @PreAuthorize("hasRole('create_merchant')")
-    public ResponseEntity<BaseResponse> createMerchantUser(@RequestBody @Valid UserSignupRequest request) {
+    @PreAuthorize("hasRole('create_merchant_service')")
+    public ResponseEntity<BaseResponse<String>> createMerchantUser(@RequestBody @Valid UserSignupRequest request) {
         log.info("creating new merchant with username: {}", request.getUsername());
         String userId = userService.registerMerchantUser(request);
-        return new ResponseEntity<>(new BaseResponse("merchant created successfully", false, userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(new BaseResponse<>("merchant created successfully", false, userId), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/forgot-password/{username}")
-    public ResponseEntity<BaseResponse> resetPassword(@PathVariable(name = "username") String username) {
+    public ResponseEntity<BaseResponse<Void>> resetPassword(@PathVariable(name = "username") String username) {
         log.info("resetting password flow initiated for user with username: {}", username);
         userService.resetPassword(username);
-        return new ResponseEntity<>(new BaseResponse("password reset link sent to email", false, null), HttpStatus.OK);
+        return new ResponseEntity<>(new BaseResponse<>("password reset link sent to email", false, null), HttpStatus.OK);
     }
 
     @PutMapping(path = "/update-password")
     @PreAuthorize("hasRole('update_password')")
-    public ResponseEntity<BaseResponse> updatePassword(Principal principal, @RequestBody @Valid UpdatePasswordRequest request) {
+    public ResponseEntity<BaseResponse<Void>> updatePassword(Principal principal, @RequestBody @Valid UpdatePasswordRequest request) {
         log.info("updating password flow initiated for user with username: {}", principal.getName());
         userService.updatePassword(principal.getName(), request);
-        return ResponseEntity.ok(new BaseResponse("password update link sent to email", false, null));
+        return ResponseEntity.ok(new BaseResponse<>("password update link sent to email", false, null));
     }
 }

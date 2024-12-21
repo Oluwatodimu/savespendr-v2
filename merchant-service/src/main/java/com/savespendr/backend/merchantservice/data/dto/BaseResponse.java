@@ -3,13 +3,13 @@ package com.savespendr.backend.merchantservice.data.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseResponse {
+public class BaseResponse<T> {
 
     private String message;
     private Boolean error;
-    private Object data;
+    private T data;
 
-    public BaseResponse(String message, Boolean error, Object data) {
+    public BaseResponse(String message, Boolean error, T data) {
         this.message = message;
         this.error = error;
         this.data = data;
@@ -31,11 +31,11 @@ public class BaseResponse {
         this.error = error;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

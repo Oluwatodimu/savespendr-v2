@@ -32,24 +32,36 @@ public class MerchantController {
 
     @PreAuthorize("hasRole('create_merchant')")
     @PostMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> registerMerchant(@RequestBody @Valid MerchantSignupRequest request) {
+    public ResponseEntity<BaseResponse<Void>> registerMerchant(@RequestBody @Valid MerchantSignupRequest request) {
         log.info("registering merchant with email: {}",request.getEmail());
         merchantService.registerMerchant(request);
-        return new ResponseEntity<>(new BaseResponse("merchant created", false, null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new BaseResponse<>("merchant created", false, null), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('view_merchant')")
     @GetMapping(path = "/{merchant-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> getMerchantDetails(@PathVariable String merchantId) {
+    public ResponseEntity<BaseResponse<Merchant>> getMerchantDetails(@PathVariable String merchantId) {
         log.info("getting merchant details with id: {}", merchantId);
         Merchant merchant = merchantService.findMerchantById(UUID.fromString(merchantId));
-        return new ResponseEntity<>(new BaseResponse("successful", false, merchant), HttpStatus.OK);
+        return new ResponseEntity<>(new BaseResponse<>("successful", false, merchant), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('view_merchant')")
+    @GetMapping(path = "/by-user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BaseResponse<Merchant>> getMerchantDetailsByUserId(@PathVariable String userId) {
+        log.info("getting merchant details with id: {}", userId);
+        Merchant merchant = merchantService.findByUserId(userId);
+        return new ResponseEntity<>(new BaseResponse<>("successful", false, merchant), HttpStatus.OK);
+    }
+
+    /*
+    * not really needed
+    * */
+    @PreAuthorize("hasRole('view_merchant_discount')")
     @GetMapping(path = "/{merchant-id}/discount", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> getMerchantDiscountedRate(@PathVariable String merchantId) {
+    public ResponseEntity<BaseResponse<BigDecimal>> getMerchantDiscountedRate(@PathVariable String merchantId) {
         log.info("getting merchant discount rate with id: {}", merchantId);
         BigDecimal discount = merchantService.getMerchantDiscountRate(UUID.fromString(merchantId));
-        return new ResponseEntity<>(new BaseResponse("successful", false, discount), HttpStatus.OK);
+        return new ResponseEntity<>(new BaseResponse<>("successful", false, discount), HttpStatus.OK);
     }
 }

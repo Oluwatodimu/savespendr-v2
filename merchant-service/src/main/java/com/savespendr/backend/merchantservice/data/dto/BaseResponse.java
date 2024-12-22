@@ -9,6 +9,8 @@ public class BaseResponse<T> {
     private Boolean error;
     private T data;
 
+    public BaseResponse() {}
+
     public BaseResponse(String message, Boolean error, T data) {
         this.message = message;
         this.error = error;

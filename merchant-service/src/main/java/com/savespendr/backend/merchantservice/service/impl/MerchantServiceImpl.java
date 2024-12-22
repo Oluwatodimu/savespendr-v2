@@ -42,9 +42,8 @@ public class MerchantServiceImpl implements MerchantService {
 
             UserSignupRequest signupRequest = createSignupRequest(request);
             BaseResponse<String> userServiceResponse = userServiceApi.createMerchantUser(signupRequest);
-//            Merchant merchant = createMerchantInstance(request, merchantUserId);
-//            merchantRepository.save(merchant);
-            System.out.println("here");
+            Merchant merchant = createMerchantInstance(request, userServiceResponse.getData());
+            merchantRepository.save(merchant);
 
         } catch (Exception exception) {
             log.error("an error occurred: {}", exception.getMessage());

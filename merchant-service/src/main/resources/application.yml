@@ -11,7 +11,7 @@ spring:
           issuer-uri: ${app.keycloak.server-url}/realms/${app.keycloak.realm}
 
   datasource:
-    url: jdbc:mysql://localhost:3306/merchant_service_test?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/merchant_service_dev?createDatabaseIfNotExist=true
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver

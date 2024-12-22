@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS merchant (
     `name` VARCHAR(64) NOT NULL,
     `discount` DECIMAL(64) NOT NULL,
     image_url VARCHAR(256),
-    merchant_type VARCHAR(64),
+    merchant_type VARCHAR(64, 2),
     created_by VARCHAR(255),
     creation_date DATETIME,
     last_modified_by VARCHAR(255),

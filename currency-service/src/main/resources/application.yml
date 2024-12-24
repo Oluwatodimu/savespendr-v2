@@ -1,0 +1,38 @@
+server:
+  port: 8060
+
+spring:
+  application:
+    name: currency-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${app.keycloak.server-url}/realms/${app.keycloak.realm}
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/currency_service_dev?createDatabaseIfNotExist=true
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    connection-test-query: SELECT 1
+
+app:
+  keycloak:
+    service:
+      client-id: currency-service
+      client-secret: v4zSj5eNDTsESHjbu3vOUrS6KWdgvPtC
+    realm: savespendr
+    server-url: http://localhost:9081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  health:
+    readiness-state:
+      enabled: true  # Enable readiness state health check
+    liveness-state:
+      enabled: true  # Enable liveness state health check

@@ -17,8 +17,6 @@ public class CreateCurrencyRequest {
     @NotNull(message = "supported cannot be null")
     private Boolean supported;
 
-    public CreateCurrencyRequest() {}
-
     public String getName() {
         return name;
     }

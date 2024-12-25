@@ -24,6 +24,10 @@ public class ApiGatewayApplication {
 						.path("/api/v2/savespendr/merchants/**")
 						.filters(f -> f.rewritePath("/api/v2/savespendr/merchants/(?<segment>.*)", "/merchants/${segment}"))
 						.uri("lb://merchant-service"))
+				.route(predicateSpec -> predicateSpec
+						.path("/api/v2/savespendr/currencies/**")
+						.filters(f -> f.rewritePath("/api/v2/savespendr/currencies/(?<segment>.*)", "/currencies/${segment}"))
+						.uri("lb://currency-service"))
 				.build();
 	}
 }

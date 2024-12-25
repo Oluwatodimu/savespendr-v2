@@ -28,14 +28,14 @@ public class CurrencyController {
         this.currencyService = currencyService;
     }
 
-    @PostMapping
+    @PostMapping(path = "/")
     public ResponseEntity<BaseResponse<Void>> createCurrency(@RequestBody @Valid CreateCurrencyRequest request) {
         log.info("creating new currency: {}", request.getSymbol());
         currencyService.createCurrency(request);
         return new ResponseEntity<>(new BaseResponse<>("currency created", false, null), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping(path = "/")
     public ResponseEntity<BaseResponse<List<Currency>>> getSupportedCurrencies() {
         log.info("creating supported currencies");
         List<Currency> currencies = currencyService.getSupportedCurrencies();

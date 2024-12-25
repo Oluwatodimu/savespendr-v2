@@ -1,5 +1,8 @@
 package com.savespendr.backend.currencyservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> {
     private String message;
     private Boolean error;

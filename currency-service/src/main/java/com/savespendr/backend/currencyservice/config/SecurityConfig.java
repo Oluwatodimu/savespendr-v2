@@ -27,6 +27,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/actuator/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(
                         jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)

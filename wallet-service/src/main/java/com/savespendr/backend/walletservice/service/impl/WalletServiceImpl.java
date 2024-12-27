@@ -25,7 +25,6 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public void createUserWallets(UUID userId) {
-        // get the available currencies
         List<Currency> currenciesSupported = new ArrayList<>();
         currenciesSupported.stream()
                 .map(currency -> createWallet(userId, currency.getId()))

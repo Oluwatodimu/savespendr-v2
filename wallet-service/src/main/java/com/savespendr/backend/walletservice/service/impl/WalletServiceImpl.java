@@ -1,6 +1,5 @@
 package com.savespendr.backend.walletservice.service.impl;
 
-import com.savespendr.backend.walletservice.dto.DepositRequest;
 import com.savespendr.backend.walletservice.entity.Wallet;
 import com.savespendr.backend.walletservice.entity.enums.Symbol;
 import com.savespendr.backend.walletservice.repository.WalletRepository;
@@ -28,6 +27,6 @@ public class WalletServiceImpl implements WalletService {
     }
 
     private Wallet createWallet(UUID userId, Symbol symbol) {
-
+        return null;
     }
 }

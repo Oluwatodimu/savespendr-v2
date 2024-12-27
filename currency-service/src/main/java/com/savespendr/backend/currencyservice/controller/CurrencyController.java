@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SuppressWarnings("LoggingSimilarMessage")
 @Validated
 @RestController
 @RequestMapping("/currencies")
@@ -56,7 +57,7 @@ public class CurrencyController {
     @GetMapping(path = "/{symbol}")
     @PreAuthorize("hasRole('view_currency')")
     public ResponseEntity<BaseResponse<Currency>> findBySymbol(@PathVariable Symbol symbol) {
-        log.info("disabling currency: {}", symbol);
+        log.info("getting currency with symbol: {}", symbol);
         Currency currency = currencyService.findBySymbol(symbol);
         return new ResponseEntity<>(new BaseResponse<>("successful", false, currency), HttpStatus.OK);
     }

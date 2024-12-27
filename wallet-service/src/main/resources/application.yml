@@ -1,18 +1,18 @@
 server:
-  port: 8060
+  port: 8050
 
 spring:
   application:
-    name: currency-service
+    name: wallet-service
+
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${app.keycloak.server-url}/realms/${app.keycloak.realm}
 
-
   datasource:
-    url: jdbc:mysql://localhost:3306/currency_service_dev?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/wallet_service_dev?createDatabaseIfNotExist=true
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,8 +21,8 @@ spring:
 app:
   keycloak:
     service:
-      client-id: currency-service
-      client-secret: GKxwtOMku4hyQgv0YheV31Mb7Nx9JBky
+      client-id: wallet-service
+      client-secret: W8EjH7nOvawh83WvxBSp3rIasUaXneNn
     realm: savespendr
     server-url: http://localhost:9081
 
